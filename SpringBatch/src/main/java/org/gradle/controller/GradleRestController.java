@@ -1,5 +1,6 @@
 package org.gradle.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.batch.core.Job;
@@ -35,8 +36,14 @@ public class GradleRestController {
 	@RequestMapping(value="/runJob")
 	public void runJob(){
 		try {
+			Calendar c = Calendar.getInstance();
+	        c.add(Calendar.DAY_OF_MONTH, -35);
+	        
+	        
 			JobParameters jobParameters = new JobParametersBuilder()  
-                    .addDate("date", new Date())       
+                    .addDate("date", new Date())  
+//                    .addDate("fireDate", c.getTime())
+                    .addLong("lastTimeId", 0L)
                     .toJobParameters(); 
 			
 			jobLauncher.run(job, jobParameters);
